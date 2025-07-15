@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>موقع تعليم التصميم</title>
+    <style>
+        /* التصميم العام */
+        body {
+            font-family: 'Tajawal', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(45deg, #f3f4f6, #dbeafe);
+            transition: all 0.5s ease;
+            overflow-x: hidden;
+            height: 100vh;
+        }
+        
+        /* اللافتة الرئيسية */
+        .main-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            transition: all 0.5s ease;
+        }
+        
+        .banner {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            animation: fadeIn 1.5s ease-out;
+        }
+        
+        h1 {
+            color: #2563eb;
+            animation: bounce 2s infinite;
+        }
+        
+        h2 {
+            color: #3b82f6;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 10px;
+        }
+        
+        p {
+            color: #4b5563;
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            margin: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(90deg, #2563eb, #3b82f6);
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-secondary {
+            background: #e5e7eb;
+            color: #4b5563;
+            animation: none;
+        }
+        
+        /* الصفحات الثانوية */
+        .secondary-page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #f3f4f6, #dbeafe);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s ease;
+            z-index: 10;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        
+        .page-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            width: 90%;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .secondary-page.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .secondary-page.active .page-content {
+            transform: translateY(0);
+        }
+        
+        /* قائمة الدروس */
+        .lessons-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .lesson-btn {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-weight: bold;
+            color: #2563eb;
+        }
+        
+        .lesson-btn:hover {
+            border-color: #2563eb;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* صفحة الدرس */
+        .lesson-content {
+            display: none;
+        }
+        
+        .lesson-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .code-block {
+            background: #f3f4f6;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+        
+        .tips {
+            background: #f0fdf4;
+            border-left: 4px solid #10b981;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        /* الحركات (Animations) */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+    </style>
+</head>
+<body>
+    <!-- الصفحة الرئيسية -->
+    <div class="main-container">
+        <div class="banner">
+            <h1>مرحبًا بك في موقع تعلم التصميم!</h1>
+            <p>ستتعلم التصميم والبرمجة بكل سهولة مع هذا الموقع الرائع.</p>
+            <button class="btn" id="aboutBtn">نبذة عني</button>
+            <button class="btn" id="startBtn">ابدأ التعلم الآن</button>
+        </div>
+    </div>
+    
+    <!-- صفحة "نبذة عني" -->
+    <div class="secondary-page" id="aboutPage">
+        <div class="page-content">
+            <h1 style="color: #2563eb; text-align: center;">تعرف عليّ</h1>
+            <p style="text-align: center;">
+                أنا أحمد محمد عوض السيد، طالب بجامعة الجزيرة، كلية العلوم الرياضية والحاسوب، قسم تقنية المعلومات.
+                <br><br>
+                يهدف موقعي إلى تسهيل تعلمكم للتصميم والبرمجة، وأتمنى أن ينال إعجابكم.
+            </p>
+            <button class="btn btn-secondary" id="backFromAbout" style="display: block; margin: 20px auto 0;">العودة للصفحة الرئيسية</button>
+        </div>
+    </div>
+    
+    <!-- صفحة "مقدمة عن تصميم المواقع" -->
+    <div class="secondary-page" id="introPage">
+        <div class="page-content">
+            <h1 style="color: #2563eb; text-align: center;">مقدمة عن تصميم المواقع</h1>
+            <p>
+                تصميم المواقع هو فن إنشاء صفحات ويب جذابة وسهلة الاستخدام. يتضمن:
+                <br><br>
+                1. <strong>HTML</strong>: هيكل الصفحة الأساسي<br>
+                2. <strong>CSS</strong>: التنسيق والتزيين<br>
+                3. <strong>JavaScript</strong>: التفاعل والحركة<br>
+                <br>
+                في هذا الموقع سنتعلم الأساسيات خطوة بخطوة.
+            </p>
+            <button class="btn" id="startLessonsBtn" style="display: block; margin: 20px auto 0;">عرض جميع الدروس</button>
+            <button class="btn btn-secondary" id="backFromIntro" style="display: block; margin: 10px auto 0;">العودة للصفحة الرئيسية</button>
+        </div>
+    </div>
+    
+    <!-- صفحة الدروس -->
+    <div class="secondary-page" id="lessonsPage">
+        <div class="page-content">
+            <h1 style="color: #2563eb; text-align: center;">دروس تعلم التصميم</h1>
+            <p>اختر أحد الدروس التالية لتبدأ رحلتك في تعلم التصميم:</p>
+            
+            <div class="lessons-container">
+                <!-- الدرس 1 -->
+                <div class="lesson-btn" data-lesson="lesson1">
+                    كيفية تثبيت التطبيق Acode
+                </div>
+                
+                <!-- الدرس 2 -->
+                <div class="lesson-btn" data-lesson="lesson2">
+                    كيفية تسمية الملف وحفظه
+                </div>
+                
+                <!-- الدرس 3 -->
+                <div class="lesson-btn" data-lesson="lesson3">
+                    كيفية كتابة العنوان الأساسي
+                </div>
+                
+                <!-- الدرس 4 -->
+                <div class="lesson-btn" data-lesson="lesson4">
+                    كيفية تغيير الألوان وحجم الخط
+                </div>
+                
+                <!-- الدرس 5 -->
+                <div class="lesson-btn" data-lesson="lesson5">
+                    كيفية إضافة الصور والخلفيات
+                </div>
+                
+                <!-- الدرس 6 -->
+                <div class="lesson-btn" data-lesson="lesson6">
+                    كيفية إنشاء أزرار تفاعلية
+                </div>
+                
+                <!-- الدرس 7 -->
+                <div class="lesson-btn" data-lesson="lesson7">
+                    كيفية إضافة تأثيرات حركية
+                </div>
+                
+                <!-- الدرس 8 -->
+                <div class="lesson-btn" data-lesson="lesson8">
+                    كيفية جعل الموقع متجاوباً
+                </div>
+            </div>
+            
+            <!-- محتوى الدروس -->
+            <div id="lesson1" class="lesson-content">
+                <h2>كيفية تثبيت التطبيق Acode</h2>
+                <p>لتثبيت Acode على هاتفك:</p>
+                <ol>
+                    <li>افتح متجر Google Play على أندرويد أو App Store على iPhone</li>
+                    <li>ابحث عن "Acode" في شريط البحث</li>
+                    <li>اضغط على زر "تثبيت"</li>
+                    <li>انتظر حتى يكتمل التثبيت</li>
+                    <li>اضغط على "فتح" لبدء استخدام التطبيق</li>
+                </ol>
+                
+                <div class="tips">
+                    <strong>نصيحة:</strong> تأكد من أن لديك مساحة كافية على هاتفك قبل التثبيت.
+                </div>
+                
+                <button class="btn btn-secondary back-to-lessons" style="margin-top: 20px;">العودة لقائمة الدروس</button>
+            </div>
+            
+            <div id="lesson2" class="lesson-content">
+                <h2>كيفية تسمية الملف وحفظه</h2>
+                <p>لإنشاء ملف جديد وحفظه في Acode:</p>
+                <ol>
+                    <li>اضغط على زر القائمة ☰</li>
+                    <li>اختر "New File"</li>
+                    <li>أدخل اسم الملف مع الامتداد الصحيح (مثل index.html)</li>
+                    <li>اضغط على "موافق"</li>
+                    <li>اكتب محتوى الملف</li>
+                    <li>اضغط على أيقونة الحفظ 💾 أو اختر "Save" من القائمة</li>
+                </ol>
+                
+                <div class="code-block">
+                    أمثلة على أسماء الملفات الصحيحة:<br>
+                    index.html<br>
+                    style.css<br>
+                    script.js
+                </div>
+                
+                <button class="btn btn-secondary back-to-lessons" style="margin-top: 20px;">العودة لقائمة الدروس</button>
+            </div>
+            
+            <div id="lesson3" class="lesson-content">
+                <h2>كيفية كتابة العنوان الأساسي</h2>
+                <p>في HTML، نستخدم وسوم h1 إلى h6 للعناوين:</p>
+                
+                <div class="code-block">
+                    &lt;h1&gt;هذا عنوان رئيسي&lt;/h1&gt;<br>
+                    &lt;h2&gt;هذا عنوان فرعي&lt;/h2&gt;<br>
+                    &lt;h3&gt;عنوان أصغر&lt;/h3&gt;
+                </div>
+                
+                <p>لجعل العنوان في المنتصف نستخدم CSS:</p>
+                
+                <div class="code-block">
+                    h1 {<br>
+                    &nbsp;&nbsp;text-align: center;<br>
+                    &nbsp;&nbsp;color: blue;<br>
+                    }
+                </div>
+                
+                <button class="btn btn-secondary back-to-lessons" style="margin-top: 20px;">العودة لقائمة الدروس</button>
+            </div>
+            
+            <div id="lesson4" class="lesson-content">
+                <h2>كيفية تغيير الألوان وحجم الخط</h2>
+                <p>لتغيير الألوان في CSS:</p>
+                
+                <div class="code-block">
+                    body {<br>
+                    &nbsp;&nbsp;color: #333; /* لون النص */<br>
+                    &nbsp;&nbsp;background-color: #f8f9fa; /* لون الخلفية */<br>
+                    &nbsp;&nbsp;font-size: 16px; /* حجم الخط */<br>
+                    }
+                </div>
+                
+                <p>يمكن استخدام الألوان بعدة طرق:</p>
+                <ul>
+                    <li>أسماء الألوان: red, blue, green</li>
+                    <li>أكواد HEX: #ffffff (أبيض), #000000 (أسود)</li>
+                    <li>RGB: rgb(255, 0, 0) (أحمر)</li>
+                </ul>
+                
+                <button class="btn btn-secondary back-to-lessons" style="margin-top: 20px;">العودة لقائمة الدروس</button>
+            </div>
+            
+            <!-- باقي الدروس بنفس الهيكل -->
+            <div id="lesson5" class="lesson-content">
+                <h2>كيفية إضافة الصور والخلفيات</h2>
+                <p>لإضافة صورة في HTML:</p>
+                
+                <div class="code-block">
+                    &lt;img src="صورة.jpg" alt="وصف الصورة"&gt;
+                </div>
+                
+                <p>لإضافة خلفية في CSS:</p>
+                
+                <div class="code-block">
+                    body {<br>
+                    &nbsp;&nbsp;background-image: url('خلفية.jpg');<br>
+                    &nbsp;&nbsp;background-size: cover;<br>
+                    }
+                </div>
+                
+                <button class="btn btn-secondary back-to-lessons" style="margin-top: 20px;">العودة لقائمة الدروس</button>
+            </div>
+            
+            <div id="lesson6" class="lesson-content">
+                <h2>كيفية إنشاء أزرار تفاعلية</h2>
+                <p>لإنشاء زر في HTML:</p>
+                
+                <div class="code-block">
+                    &lt;button class="my-button"&gt;اضغط هنا&lt;/button&gt;
+                </div>
+                
+                <p>لتنسيق الزر في CSS:</p>
+                
+                <div class="code-block">
+                    .my-button {<br>
+                    &nbsp;&nbsp;padding: 10px 20px;<br>
+                    &nbsp;&nbsp;background-color: #4CAF50;<br>
+                    &nbsp;&nbsp;color: white;<br>
+                    &nbsp;&nbsp;border: none;<br>
+                    &nbsp;&nbsp;border-radius: 5px;<br>
+                    &nbsp;&nbsp;cursor: pointer;<br>
+                    }<br><br>
+                    .my-button:hover {<br>
+                    &nbsp;&nbsp;background-color: #45a049;<br>
+                    }
+                </div>
+                
+                <button class="btn btn-secondary back-to-lessons" style="margin-top: 20px;">العودة لقائمة الدروس</button>
+            </div>
+            
+            <div id="lesson7" class="lesson-content">
+                <h2>كيفية إضافة تأثيرات حركية</h2>
+                <p>لإضافة حركة في CSS:</p>
+                
+                <div class="code-block">
+                    .animated-box {<br>
+                    &nbsp;&nbsp;width: 100px;<br>
+                    &nbsp;&nbsp;height: 100px;<br>
+                    &nbsp;&nbsp;background: red;<br>
+                    &nbsp;&nbsp;transition: all 0.3s ease;<br>
+                    }<br><br>
+                    .animated-box:hover {<br>
+                    &nbsp;&nbsp;transform: rotate(45deg);<br>
+                    &nbsp;&nbsp;background: blue;<br>
+                    }
+                </div>
+                
+                <p>لإنشاء حركة متكررة:</p>
+                
+                <div class="code-block">
+                    @keyframes example {<br>
+                    &nbsp;&nbsp;0% { transform: rotate(0deg); }<br>
+                    &nbsp;&nbsp;100% { transform: rotate(360deg); }<br>
+                    }<br><br>
+                    .spinner {<br>
+                    &nbsp;&nbsp;animation: example 2s linear infinite;<br>
+                    }
+                </div>
+                
+                <button class="btn btn-secondary back-to-lessons" style="margin-top: 20px;">العودة لقائمة الدروس</button>
+            </div>
+            
+            <div id="lesson8" class="lesson-content">
+                <h2>كيفية جعل الموقع متجاوباً</h2>
+                <p>لجعل الموقع متجاوباً مع جميع أحجام الشاشات:</p>
+                
+                <div class="code-block">
+                    /* للهواتف */<br>
+                    @media (max-width: 600px) {<br>
+                    &nbsp;&nbsp;body {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;font-size: 14px;<br>
+                    &nbsp;&nbsp;}<br>
+                    }<br><br>
+                    /* للأجهزة اللوحية */<br>
+                    @media (min-width: 601px) and (max-width: 1024px) {<br>
+                    &nbsp;&nbsp;.container {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;width: 90%;<br>
+                    &nbsp;&nbsp;}<br>
+                    }
+                </div>
+                
+                <div class="tips">
+                    <strong>نصيحة:</strong> دائماً ابدأ بتصميم نسخة الهاتف أولاً (Mobile First Design).
+                </div>
+                
+                <button class="btn btn-secondary back-to-lessons" style="margin-top: 20px;">العودة لقائمة الدروس</button>
+            </div>
+            
+            <button class="btn btn-secondary" id="backFromLessons" style="display: block; margin: 20px auto 0;">العودة للصفحة السابقة</button>
+        </div>
+    </div>
+
+    <script>
+        // التحكم في عرض الصفحات
+        const aboutBtn = document.getElementById('aboutBtn');
+        const startBtn = document.getElementById('startBtn');
+        const backFromAbout = document.getElementById('backFromAbout');
+        const backFromIntro = document.getElementById('backFromIntro');
+        const backFromLessons = document.getElementById('backFromLessons');
+        const startLessonsBtn = document.getElementById('startLessonsBtn');
+        
+        const aboutPage = document.getElementById('aboutPage');
+        const introPage = document.getElementById('introPage');
+        const lessonsPage = document.getElementById('lessonsPage');
+        const mainContainer = document.querySelector('.main-container');
+        
+        // أحداث الأزرار
+        aboutBtn.addEventListener('click', function() {
+            mainContainer.style.opacity = '0';
+            mainContainer.style.visibility = 'hidden';
+            aboutPage.classList.add('active');
+        });
+        
+        startBtn.addEventListener('click', function() {
+            mainContainer.style.opacity = '0';
+            mainContainer.style.visibility = 'hidden';
+            introPage.classList.add('active');
+        });
+        
+        startLessonsBtn.addEventListener('click', function() {
+            introPage.classList.remove('active');
+            lessonsPage.classList.add('active');
+        });
+        
+        backFromAbout.addEventListener('click', function() {
+            aboutPage.classList.remove('active');
+            mainContainer.style.opacity = '1';
+            mainContainer.style.visibility = 'visible';
+        });
+        
+        backFromIntro.addEventListener('click', function() {
+            introPage.classList.remove('active');
+            mainContainer.style.opacity = '1';
+            mainContainer.style.visibility = 'visible';
+        });
+        
+        backFromLessons.addEventListener('click', function() {
+            lessonsPage.classList.remove('active');
+            introPage.classList.add('active');
+            
+            // إخفاء جميع محتويات الدروس عند العودة
+            document.querySelectorAll('.lesson-content').forEach(content => {
+                content.classList.remove('active');
+            });
+        });
+        
+        // التحكم في عرض محتوى الدروس
+        document.querySelectorAll('.lesson-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const lessonId = this.getAttribute('data-lesson');
+                
+                // إخفاء جميع محتويات الدروس
+                document.querySelectorAll('.lesson-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                // عرض محتوى الدرس المحدد
+                document.getElementById(lessonId).classList.add('active');
+                
+                // التمرير إلى أعلى محتوى الدرس
+                document.getElementById(lessonId).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+        
+        // العودة إلى قائمة الدروس من داخل الدرس
+        document.querySelectorAll('.back-to-lessons').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.lesson-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                // التمرير إلى أعلى الصفحة
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>
